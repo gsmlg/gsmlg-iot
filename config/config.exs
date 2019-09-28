@@ -16,3 +16,6 @@ import Config
 #       format: "$date $time [$level] $metadata$message\n",
 #       metadata: [:user_id]
 #
+
+import_config "../apps/web_ui/config/config.exs"
+import_config "../apps/fw/config/config.exs"
