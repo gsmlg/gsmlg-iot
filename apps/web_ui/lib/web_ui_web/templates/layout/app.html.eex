@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>WebUi · Phoenix Framework</title>
+    <title>GSMLG IOT</title>
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
   </head>
   <body>
@@ -12,7 +12,12 @@
       <section class="container">
         <nav role="navigation">
           <ul>
-            <li><a href="https://hexdocs.pm/phoenix/overview.html">Get Started</a></li>
+            <li>
+              <a href="https://gsmlg.github.io" target="_blank">GSMLG</a>
+            </li>
+            <li>
+              <%= link "Home", to: Routes.page_path(@conn, :index) %>
+            </li>
           </ul>
         </nav>
         <a href="http://phoenixframework.org/" class="phx-logo">
