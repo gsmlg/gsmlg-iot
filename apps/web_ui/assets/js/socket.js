@@ -7,6 +7,7 @@
 // Pass the token on params as below. Or remove it
 // from the params if you are not using authentication.
 import {Socket} from "phoenix"
+import LiveSocket from "phoenix_live_view"
 
 let socket = new Socket("/socket", {params: {token: window.userToken}})
 
@@ -59,5 +60,8 @@ let channel = socket.channel("topic:subtopic", {})
 channel.join()
   .receive("ok", resp => { console.log("Joined successfully", resp) })
   .receive("error", resp => { console.log("Unable to join", resp) })
+
+let liveSocket = new LiveSocket("/live", Socket)
+liveSocket.connect()
 
 export default socket

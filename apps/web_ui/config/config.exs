@@ -12,6 +12,9 @@ config :web_ui, WebUiWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "lrAj7XqL/6yQQUTlOVa01TDijwjYkc5BxO9moghvehqfNKgohkIP8oGDaQcKBRrn",
   render_errors: [view: WebUiWeb.ErrorView, accepts: ~w(html json)],
+  live_view: [
+    signing_salt: "pPe+JZlSxZ39LZQw3HZKoNL3f15R6smn"
+  ],
   pubsub: [name: WebUi.PubSub, adapter: Phoenix.PubSub.PG2]
 
 # Configures Elixir's Logger
