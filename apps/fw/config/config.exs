@@ -34,8 +34,18 @@ config :nerves_init_gadget,
   ifname: "usb0",
   address_method: :dhcpd,
   mdns_domain: "nerves.local",
-  node_name: Node.self,
+  node_name: :gsmlg_rpi0,
   node_host: :mdns_domain
+
+key_mgmt = System.get_env("NERVES_NETWORK_KEY_MGMT") || "WPA-PSK"
+
+config :nerves_network, :default,
+  wlan0: [
+    ipv4_address_method: :dhcp,
+    ssid: System.get_env("NERVES_NETWORK_SSID"),
+    psk: System.get_env("NERVES_NETWORK_PSK"),
+    key_mgmt: String.to_atom(key_mgmt)
+  ]
 
 config :web_ui, WebUiWeb.Endpoint,
   # Nerves root filesystem is read-only, so disable the code reloader

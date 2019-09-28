@@ -22,10 +22,10 @@ defmodule WebUiWeb.TopLive do
   defp put_top(socket) do
     case :os.type() do
       {:unix, :darwin} ->
-        {top, 0} = System.cmd("top", ["-l", "1"])
+        {top, 0} = System.cmd("ps", [])
         assign(socket, top: top)
       {:unix, :linux} ->
-        {top, 0} = System.cmd("top", ["-n", "1", "-b"])
+        {top, 0} = System.cmd("ps", [])
         assign(socket, top: top)
     end
   end
