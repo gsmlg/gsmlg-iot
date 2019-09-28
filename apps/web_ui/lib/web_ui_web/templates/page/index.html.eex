@@ -8,7 +8,10 @@
     <h2>Resources</h2>
     <ul>
       <li>
-        <%= link "Top", to: Routes.live_path(@conn, WebUiWeb.TopLive) %>   
+        <%= link "Process", to: Routes.live_path(@conn, WebUiWeb.TopLive) %>         
+      </li>
+      <li>
+        <%= link "Network", to: Routes.live_path(@conn, WebUiWeb.NetworkLive) %>  
       </li>
     </ul>
   </article>

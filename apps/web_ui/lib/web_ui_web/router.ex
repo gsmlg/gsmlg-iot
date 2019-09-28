@@ -19,6 +19,7 @@ defmodule WebUiWeb.Router do
 
     get "/", PageController, :index
     live "/top", TopLive
+    live "/network", NetworkLive
   end
 
   # Other scopes may use custom stacks.
