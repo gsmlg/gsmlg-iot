@@ -11,7 +11,7 @@ config :fw, target: Mix.target()
 # https://hexdocs.pm/nerves/advanced-configuration.html for details.
 
 config :nerves, :firmware, [
-  fwup_conf: "config/fwup.conf",
+#  fwup_conf: "config/fwup.conf",
   rootfs_overlay: "rootfs_overlay"
 ]
 

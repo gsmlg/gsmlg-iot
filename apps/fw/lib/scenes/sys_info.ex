@@ -7,34 +7,18 @@ defmodule Fw.Scene.SysInfo do
   @target System.get_env("MIX_TARGET") || "host"
 
   @system_info """
-  MIX_TARGET: #{@target}
-  MIX_ENV: #{Mix.env()}
   Scenic version: #{Scenic.version()}
-  """
-
-  @iex_note """
-  Please note: because Scenic
-  draws over the entire screen
-  in Nerves, IEx has been routed
-  to the UART pins.
+  Cpus: #{Fw.SysInfo.cpus()}
   """
 
   @graph Graph.build(font_size: 22, font: :roboto_mono)
          |> group(
            fn g ->
              g
-             |> text("System")
-             |> text(@system_info, translate: {10, 20}, font_size: 18)
+             |> text("System", font_size: 28)
+             |> text(@system_info, translate: {20, 30}, font_size: 28)
            end,
            t: {10, 30}
-         )
-         |> group(
-           fn g ->
-             g
-             |> text("ViewPort")
-             |> text("", translate: {10, 20}, font_size: 18, id: :vp_info)
-           end,
-           t: {10, 110}
          )
          |> group(
            fn g ->
@@ -42,7 +26,7 @@ defmodule Fw.Scene.SysInfo do
              |> text("Input Devices")
              |> text("Devices are being loaded...",
                translate: {10, 20},
-               font_size: 18,
+               font_size: 28,
                id: :devices
              )
            end,
@@ -52,19 +36,20 @@ defmodule Fw.Scene.SysInfo do
          |> group(
            fn g ->
              g
-             |> text("IEx")
-             |> text(@iex_note, translate: {10, 20}, font_size: 18)
+             |> text("Network", font_size: 28)
+             |> text("Network are being loaded...",
+               translate: {10, 20},
+               font_size: 14,
+               id: :netinfo
+             )
            end,
-           t: {10, 240}
+           t: {10, 130},
+           id: :net_list
          )
 
   # --------------------------------------------------------
   def init(_, opts) do
     {:ok, info} = Scenic.ViewPort.info(opts[:viewport])
-
-    vp_info = """
-    size: #{inspect(Map.get(info, :size))}
-    """
 
     # styles: #{stringify_map(Map.get(info, :styles, %{a: 1, b: 2}))}
     # transforms: #{stringify_map(Map.get(info, :transforms, %{}))}
@@ -72,15 +57,24 @@ defmodule Fw.Scene.SysInfo do
 
     graph =
       @graph
-      |> Graph.modify(:vp_info, &text(&1, vp_info))
       |> Graph.modify(:device_list, &update_opts(&1, hidden: @target == "host"))
 
     unless @target == "host" do
       # subscribe to the simulated temperature sensor
       Process.send_after(self(), :update_devices, 100)
     end
+    Process.send_after(self(), :update_netinfo, 100)
 
     {:ok, graph, push: graph}
+  end
+
+  def handle_info(:update_netinfo, graph) do
+    Process.send_after(self(), :update_netinfo, 1000)
+
+    # update the graph
+    graph = Graph.modify(graph, :netinfo, &text(&1, Fw.SysInfo.netinfo()))
+
+    {:noreply, graph, push: graph}
   end
 
   unless @target == "host" do
