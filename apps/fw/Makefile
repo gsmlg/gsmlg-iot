@@ -1,6 +1,16 @@
+target ?= host
+key = $(shell mix phx.gen.secret)
+
 build:
-	MIX_TARGET=rpi0 MIX_ENV=prod mix firmware && MIX_TARGET=rpi0 MIX_ENV=prod mix firmware.burn
+	export MIX_TARGET=$(target) ;\
+		export MIX_ENV=prod ;\
+		export SECRET_KEY_BASE=$(key) ;\
+		mix firmware ;\
+		mix firmware.burn
 
 deps:
-	MIX_TARGET=rpi0 MIX_ENV=prod mix deps.get
+	export MIX_TARGET=$(target) ;\
+		export MIX_ENV=prod ;\
+		export SECRET_KEY_BASE=$(key) ;\
+		mix deps.get
 
