@@ -57,6 +57,26 @@ config :web_ui, WebUiWeb.Endpoint,
   server: true,
   url: [host: "nerves.local", port: 80]
 
+# Should be move to specific target
+config :fw, :viewport, %{
+  name: :main_viewport,
+  # default_scene: {Fw.Scene.Crosshair, nil},
+  default_scene: {Fw.Scene.SysInfo, nil},
+  size: {800, 480},
+  opts: [scale: 1.0],
+  drivers: [
+    %{
+      module: Scenic.Driver.Nerves.Rpi
+    },
+    %{
+      module: Scenic.Driver.Nerves.Touch,
+      opts: [
+        device: "FT5406 memory based driver",
+        calibration: {{1, 0, 0}, {1, 0, 0}}
+      ]
+    }
+  ]
+}
 
 # Import target specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

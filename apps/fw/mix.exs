@@ -49,11 +49,18 @@ defmodule Fw.MixProject do
       {:toolshed, "~> 0.2"},
       {:web_ui, in_umbrella: true},
       {:harald, "~> 0.2"},
+      {:scenic, "~> 0.10"},
+      {:scenic_sensor, "~> 0.7"},
+
+      # Dependencies for only the :host
+      {:scenic_driver_glfw, "~> 0.10", targets: :host},
 
       # Dependencies for all targets except :host
       {:nerves_runtime, "~> 0.6", targets: @all_targets},
       {:nerves_init_gadget, "~> 0.4", targets: @all_targets},
       {:nerves_network, "~> 0.5", targets: @all_targets},
+      {:scenic_driver_nerves_rpi, "~> 0.10", targets: @all_targets},
+      {:scenic_driver_nerves_touch, "~> 0.10", targets: @all_targets},
 
       # Dependencies for specific targets
       {:nerves_system_rpi, "~> 1.8", runtime: false, targets: :rpi},

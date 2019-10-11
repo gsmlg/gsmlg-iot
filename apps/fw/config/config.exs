@@ -29,7 +29,11 @@ config :shoehorn,
 
 config :logger, backends: [RingLogger]
 
-if Mix.target() != :host do
+# Import target specific config. This must remain at the bottom
+# of this file so it overrides the configuration defined above.
+
+if Mix.target() == :host do
+  import_config "host.exs"
+else
   import_config "target.exs"
 end
-

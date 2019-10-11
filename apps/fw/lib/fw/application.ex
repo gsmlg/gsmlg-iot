@@ -21,23 +21,27 @@ defmodule Fw.Application do
 
   # List all child processes to be supervised
   def children(:host) do
+    main_viewport_config = Application.get_env(:fw, :viewport)
+
     [
       # Children that only run on the host
       # Starts a worker by calling: Fw.Worker.start_link(arg)
       # {Fw.Worker, arg},
+      {Scenic, viewports: [main_viewport_config]}
     ]
   end
 
   def children(_target) do
+    main_viewport_config = Application.get_env(:fw, :viewport)
+
     [
       # Children for all targets except host
       # Starts a worker by calling: Fw.Worker.start_link(arg)
       # {Fw.Worker, arg},
       {Harald.Transport,
        namespace: :bt,
-       adapter: {Harald.Transport.UART, device: "/dev/ttyAMA0", uart_opts: [speed: 115_200]}}
-      # Starts a worker by calling: Fw.Worker.start_link(arg)
-      # {Fw.Worker, arg},
+       adapter: {Harald.Transport.UART, device: "/dev/ttyAMA0", uart_opts: [speed: 115_200]}},
+      {Scenic, viewports: [main_viewport_config]}
     ]
   end
 
